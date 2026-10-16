@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch src/index.js"
+    "build": "shx rm -rf dist && shx cp -R src dist",
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +19,8 @@
     "dotenv": "^18.0.4",
     "express": "^5.2.1",
     "mongoose": "^9.10.2"
+  },
+  "devDependencies": {
+    "shx": "^0.4.0"
   }
 }
