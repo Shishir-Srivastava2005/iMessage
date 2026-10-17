@@ -8,6 +8,7 @@ import fs from "fs"
 import path from "path"
 import job from "./lib/cron.js"
 import clerkWebhook from "./webhooks/clerk.webhook.js"
+import authRoutes from "./routes/auth.route.js"
 
 const app = express()
 const PORT = process.env.PORT
@@ -25,6 +26,8 @@ app.get("/health", (req, res) => {
     res.status(200).json({ok : true})
 })
 
+app.use("api/auth", authRoutes)
+
 // if the public directory exists, serve the static files
 // this is for production build
 if(fs.existsSync(publicDir)){                   // does public folder exist
@@ -37,7 +40,7 @@ if(fs.existsSync(publicDir)){                   // does public folder exist
 
 app.listen(PORT, () => {
     connectDB();
-    console.log("Server is up and Running on PORT ", PORT)
+    console.log("Server is up and Running on PORT", PORT)
 
     if(process.env.NODE_ENV === "production"){
         job.start()
