@@ -9,8 +9,10 @@ import path from "path"
 import job from "./lib/cron.js"
 import clerkWebhook from "./webhooks/clerk.webhook.js"
 import authRoutes from "./routes/auth.route.js"
+import messageRoutes from "./routes/message.route.js"
+import { app, server } from "./lib/socket.js"
 
-const app = express()
+
 const PORT = process.env.PORT
 const FRONTEND_URL = process.env.FRONTEND_URL
 
@@ -27,6 +29,8 @@ app.get("/health", (req, res) => {
 })
 
 app.use("api/auth", authRoutes)
+app.use("api/messages", messageRoutes)
+
 
 // if the public directory exists, serve the static files
 // this is for production build
@@ -38,7 +42,7 @@ if(fs.existsSync(publicDir)){                   // does public folder exist
     })
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     connectDB();
     console.log("Server is up and Running on PORT", PORT)
 
